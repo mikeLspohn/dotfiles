@@ -11,6 +11,7 @@ set ignorecase                 " Case insensitive search
 set smartcase                  " Case sensitive when upper case characters are present
 set backspace=indent,eol,start "allow backspace in insert mode
 set number
+set noswapfile
 syntax enable
 
 
@@ -41,6 +42,7 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'dense-analysis/ale'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
 call plug#end()
 
 
@@ -66,8 +68,10 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 "ale
 let b:ale_fixers = {'javascript': ['prettier']}
-let b:ale_linters = {'javascript': ['eslint']}
+let b:ale_linters = {
+  \ 'javascript': ['eslint'],
+  \ 'ruby': ['rubocop'],
+\}
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_fix_on_save = 1
-
