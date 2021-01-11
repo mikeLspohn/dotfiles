@@ -10,7 +10,7 @@ DISABLE_AUTO_TITLE="true"
 ENABLE_CORRECTION="true"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git rails npm) # Plugins found in ~/.oh-my-zsh/plugins/
+plugins=(git npm) # Plugins found in ~/.oh-my-zsh/plugins/
 
 source $ZSH/oh-my-zsh.sh
 
@@ -61,6 +61,20 @@ load-nvmrc() {
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
+# Ruby and RBENV stuff for openssl versions
+local READLINE_PATH=$(brew --prefix readline)
+local OPENSSL_PATH=$(brew --prefix openssl)
+export LDFLAGS="-L$READLINE_PATH/lib -L$OPENSSL_PATH/lib"
+export CPPFLAGS="-I$READLINE_PATH/include -I$OPENSSL_PATH/include"
+export PKG_CONFIG_PATH="$READLINE_PATH/lib/pkgconfig:$OPENSSL_PATH/lib/pkgconfig"
+
+# Use the OpenSSL from Homebrew instead of ruby-build
+# Note: the Homebrew version gets updated, the ruby-build version doesn't
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$OPENSSL_PATH"
+
+# Place openssl@1.1 at the beginning of your PATH (preempt system libs)
+export PATH=$OPENSSL_PATH/bin:$PATH
+eval "$(rbenv init -)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
